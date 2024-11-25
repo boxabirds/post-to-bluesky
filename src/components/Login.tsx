@@ -1,8 +1,9 @@
 // components/Login.tsx
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useState, useRef, useEffect } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { 
     MESSAGE_TYPE,
+    STORAGE_KEYS,
     AuthState
  } from "~types";
 
@@ -10,7 +11,9 @@ interface LoginProps {
   onAuthenticated: () => void;
 }
 
-export function Login({ onAuthenticated }: LoginProps) {
+export function Login(props: LoginProps) {
+
+
   const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [authState, setAuthState] = useState<AuthState>(AuthState.UNAUTHENTICATED);
@@ -18,9 +21,32 @@ export function Login({ onAuthenticated }: LoginProps) {
     type: (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
     message: string;
   }>(null);
+  const storage = useRef<Storage>(new Storage());
 
   const isLoading = [AuthState.CREDENTIALS_SUBMITTED, AuthState.TOKEN_SUBMITTED].includes(authState);
   const showErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
+
+  useEffect(() => {
+    const init = async () => {
+        if (await storage.current.get(STORAGE_KEYS.BSKY_AUTH_STATE) === AuthState.AUTHENTICATED) {
+            props.onAuthenticated();
+            setAuthState(AuthState.AUTHENTICATED);
+        }
+    };
+    init();
+    }, []);
+
+  useEffect(() => {
+      if (authState === AuthState.AUTHENTICATED) {
+          // Perform actions that depend on the user being authenticated
+          return;
+      }
+  }, [authState]);
+    
+
+
+
+
 
   const handleLogin = async (e?: FormEvent) => {
     if (e) {

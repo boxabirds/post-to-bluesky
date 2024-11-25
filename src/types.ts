@@ -22,10 +22,8 @@ export enum AuthState {
   } as const;
   
   export const STORAGE_KEYS = {
-    BSKY_USER_ID: "bsky_user_id",
-    BSKY_PASSWORD: "bsky_password",
+    BSKY_AUTH_STATE: "bsky_auth_state",
     BSKY_CLIENT_SESSION: "bsky_client_session",
-    BSKY_SHOW_AUTH_FACTOR_TOKEN_INPUT: "bsky_show_auth_factor_token_input",
     DRAFT_POST: "draft_post",
   
   } as const;
