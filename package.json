@@ -1,0 +1,44 @@
+{
+  "name": "post-to-bluesky",
+  "displayName": "Post to Bluesky",
+  "version": "0.2.19",
+  "description": "Share selected text, title and url from page as a post (skeet) on Bluesky",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "node scripts/increment-version-patch.js && plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.12",
+    "@plasmohq/messaging": "^0.6.2",
+    "@plasmohq/storage": "^1.9.0",
+    "plasmo": "^0.89.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "^3.6.4",
+    "@tailwindcss/forms": "^0.5.9",
+    "@types/chrome": "^0.0.245",
+    "@types/node": "^20.5.9",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.2.2"
+  },
+  "manifest": {
+    "permissions": [
+      "storage",
+      "activeTab"
+    ],
+    "host_permissions": [
+      "https://bsky.social/*"
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+  }
+}
