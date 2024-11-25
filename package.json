@@ -1,7 +1,7 @@
 {
   "name": "post-to-bluesky",
   "displayName": "Post to Bluesky",
-  "version": "0.2.19",
+  "version": "0.2.22",
   "description": "Share selected text, title and url from page as a post (skeet) on Bluesky",
   "scripts": {
     "dev": "plasmo dev",

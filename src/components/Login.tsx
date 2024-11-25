@@ -73,7 +73,9 @@ export function Login({ onAuthenticated }: LoginProps) {
               />
             </div>
       <div className="flex justify-between items-center">
-          <button type="submit" className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
+          <button type="submit" 
+          disabled={isLoading}
+            className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed">
             {isLoading ? (
             <LoadingSpinner />
             ) : (   
