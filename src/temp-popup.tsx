@@ -17,11 +17,11 @@ import {
 function IndexPopup() {
   const [isPosting, setIsPosting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [authFactorToken, setAuthFactorToken] = useState("");
   const [showAuthFactorTokenInput, setShowAuthFactorTokenInput] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [draftPost, setDraftPost] = useState<DraftPost>({
     title: "",
     quote: "",

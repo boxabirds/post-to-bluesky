@@ -1,12 +1,25 @@
 // components/Post.tsx
 import { type FormEvent, useState, useCallback, useRef, useEffect } from "react";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { PostState, type DraftPost } from "~types";
 import { sendToContentScript, sendToBackground } from "@plasmohq/messaging";
 import { Storage } from "@plasmohq/storage";
-import { STORAGE_KEYS, MESSAGE_NAMES } from "~types";
 
- 
+interface DraftPost {
+  title: string;
+  quote: string;
+  url: string;
+  comments: string;
+}
+
+export enum PostState {
+  DRAFT_INPUT = "DRAFT_INPUT",
+  POST_SUBMITTED = "POST_SUBMITTED"
+}
+
+export const STORAGE_KEYS = {
+    DRAFT_POST: "draft_post"
+} as const;
+
 
 export function Post() {
   const [postState, setPostState] = useState<PostState>(PostState.DRAFT_INPUT);
@@ -21,7 +34,7 @@ export function Post() {
   const isLoading = PostState.POST_SUBMITTED === postState;
 
   const loadDraftPost = useCallback(async () => {
-    const storedDraft:DraftPost = await storage.current.get(STORAGE_KEYS.DRAFT_POST);
+    const storedDraft:DraftPost | undefined  = await storage.current.get(STORAGE_KEYS.DRAFT_POST);
     if (storedDraft) {
       setDraftPost(storedDraft);
 
@@ -62,7 +75,7 @@ export function Post() {
        const text = parts.join("\n\n");
  
        const response = await sendToBackground({
-         name: MESSAGE_NAMES.POST,
+         name: "post",
          body: { text },
        });
  

@@ -1,15 +1,11 @@
-import { useState } from "react";
-import { AuthState } from "~types";
+import { useAuthState, AuthState } from "~hooks/useAuthState";
 import { Login } from "~components/Login";
 import { Post } from "~components/Post";
 import icon from "data-base64:/assets/icon.png";
 import "./style.css";
-function IndexPopup() {
-  const [authState, setAuthState] = useState<AuthState>(AuthState.UNAUTHENTICATED);
 
-  const handleAuthenticated = () => {
-    setAuthState(AuthState.AUTHENTICATED);
-  };
+function IndexPopup() {
+  const props = useAuthState();  // Get full props object
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">
@@ -18,13 +14,7 @@ function IndexPopup() {
         Post to Bluesky
       </h1>
       
-      {authState === AuthState.AUTHENTICATED ? (
-        <Post />
-      ) : (
-        <Login onAuthenticated={handleAuthenticated} />
-      )}
+      {props.authState === AuthState.AUTHENTICATED ? <Post /> : <Login />}
     </div>
   );
 }
-
-export default IndexPopup;
