@@ -1,11 +1,29 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
   "exclude": ["node_modules"],
-  "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx"],
+  "include": [
+    ".plasmo/index.d.ts", 
+    "./**/*.ts", 
+    "./**/*.tsx",
+    "jest.setup.ts"
+  ],
   "compilerOptions": {
     "paths": {
       "~*": ["./src/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "target": "es6",
+    "module": "esnext",  // Changed from commonjs
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "verbatimModuleSyntax": false  // Added this line
   }
 }

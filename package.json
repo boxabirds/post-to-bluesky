@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "node scripts/increment-version-patch.js && plasmo build",
-    "package": "plasmo package"
+    "package": "plasmo package",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@atproto/api": "^0.13.12",
@@ -17,16 +20,24 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.26.0",
     "@plasmohq/prettier-plugin-sort-imports": "^3.6.4",
     "@tailwindcss/forms": "^0.5.9",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
     "@types/chrome": "^0.0.245",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20.5.9",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.20",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.49",
-    "prettier": "^3.0.3",
+    "prettier": "^2.8.8",
+    "svgo": "3.0.2",
     "tailwindcss": "^3.4.15",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.2.2"
   },
   "manifest": {
@@ -39,6 +50,16 @@
     ],
     "content_security_policy": {
       "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "svgo@^3.0.2"
+      ],
+      "allowedVersions": {
+        "svgo": "2.8.0"
+      }
     }
   }
 }

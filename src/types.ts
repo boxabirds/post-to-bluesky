@@ -1,10 +1,3 @@
-export enum AuthState {
-    UNAUTHENTICATED = "UNAUTHENTICATED",
-    CREDENTIALS_SUBMITTED = "CREDENTIALS_SUBMITTED",
-    AWAITING_2FA = "AWAITING_2FA",
-    TOKEN_SUBMITTED = "TOKEN_SUBMITTED",
-    AUTHENTICATED = "AUTHENTICATED"
-  }
   
   export enum PostState {
     DRAFT_INPUT = "DRAFT_INPUT",
@@ -22,9 +15,7 @@ export enum AuthState {
   } as const;
   
   export const STORAGE_KEYS = {
-    BSKY_AUTH_STATE: "bsky_auth_state",
-    BSKY_CLIENT_SESSION: "bsky_client_session",
-    DRAFT_POST: "draft_post",
+      DRAFT_POST: "draft_post",
   
   } as const;
   export const BSKY_DOMAIN = "bsky.social";

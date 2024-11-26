@@ -4,7 +4,8 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import { 
     MESSAGE_TYPE,
     STORAGE_KEYS,
-    AuthState
+    AuthState,
+    BSKY_DOMAIN
  } from "~types";
 
 interface LoginProps {
@@ -26,6 +27,8 @@ export function Login(props: LoginProps) {
   const isLoading = [AuthState.CREDENTIALS_SUBMITTED, AuthState.TOKEN_SUBMITTED].includes(authState);
   const showErrorMessage = message?.type === MESSAGE_TYPE.ERROR;
 
+
+  // do we have a valid session already? 
   useEffect(() => {
     const init = async () => {
         if (await storage.current.get(STORAGE_KEYS.BSKY_AUTH_STATE) === AuthState.AUTHENTICATED) {
@@ -36,29 +39,29 @@ export function Login(props: LoginProps) {
     init();
     }, []);
 
+  // We're authenticated, so we don't need to show the login form
   useEffect(() => {
       if (authState === AuthState.AUTHENTICATED) {
-          // Perform actions that depend on the user being authenticated
-          return;
+        props.onAuthenticated();
+        return;
       }
   }, [authState]);
     
-
-
-
-
 
   const handleLogin = async (e?: FormEvent) => {
     if (e) {
       e.preventDefault();
     }
-    setAuthState(AuthState.CREDENTIALS_SUBMITTED);
-    setTimeout(() => {
-        setAuthState(AuthState.AUTHENTICATED);
-        onAuthenticated();
-      }, 2000); // Simulate a 2-second delay
-  
-  };
+    // alice => alice.bsky.social 
+    // @alice => alice.bsky.social
+    // alice@bsky.social => alice.bsky.social
+    const formattedIdentifier = identifier
+    .replace(/^@/, "") // Remove leading @
+    .replace(/@/g, ".") // Replace @ with .
+    .includes(".") 
+      ? identifier.replace(/^@/, "").replace(/@/g, ".")
+      : `${identifier}.${BSKY_DOMAIN}`;
+    };
 
   return (
     <form onSubmit={handleLogin} className="mt-4">
