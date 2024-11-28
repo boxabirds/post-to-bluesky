@@ -4,8 +4,8 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import { useAuthState, AuthState } from "~hooks/useAuthState";
 import {  sendToBackground } from "@plasmohq/messaging";
 
-const BSKY_DOMAIN = process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
-const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE = "A sign in code has been sent to your email address";
+export const BSKY_DOMAIN = process.env.PLASMO_PUBLIC_BSKY_DOMAIN || "bsky.social";
+export const AUTH_FACTOR_TOKEN_REQUIRED_ERROR_MESSAGE = "A sign in code has been sent to your email address";
 export const MESSAGE_TYPE = {
   ERROR: "error",
   SUCCESS: "success",
@@ -33,21 +33,22 @@ export function Login() {
     e?.preventDefault()
 
     // Format identifier (handle/email)
-    const formattedIdentifier = auth.username
+    const formattedIdentifier = auth.identifier
       .replace(/^@/, "") // Remove leading @
       .includes(".") 
-        ? auth.username.replace(/^@/, "").replace(/@/g, ".")
-        : `${auth.username}.${BSKY_DOMAIN}`;
+        ? auth.identifier.replace(/^@/, "").replace(/@/g, ".")
+        : `${auth.identifier}.${BSKY_DOMAIN}`;
 
     try {
       setIsLoading(true);
       setMessage(null);
-      
+      auth.setPassword(password);
+      auth.setIdentifier(formattedIdentifier);
       const { session, error } = await sendToBackground({
         name: "login",
         body: {
           identifier: formattedIdentifier,
-          password: auth.password,
+          password: password,
           ...(authFactorToken && { authFactorToken: authFactorToken }),
         },
       });
@@ -78,7 +79,7 @@ export function Login() {
   };
 
   return (
-    <form onSubmit={handleLogin} className="mt-4">
+    <form onSubmit={handleLogin} className="mt-4" role="form" aria-label="Login Form">
     {!showAuthFactorTokenInput ? (
       <>
         <div className="mb-4">
@@ -145,7 +146,6 @@ export function Login() {
     {showErrorMessage && (
       <div className="text-red-600 dark:text-red-400 text-sm mb-4">
         {message.message}
-        )}
       </div>
     )}
 

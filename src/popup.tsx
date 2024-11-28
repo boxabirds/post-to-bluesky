@@ -5,7 +5,7 @@ import icon from "data-base64:/assets/icon.png";
 import "./style.css";
 
 function IndexPopup() {
-  const props = useAuthState();  // Get full props object
+  const auth = useAuthState();  
 
   return (
     <div className="px-5 pt-3 pb-4 w-[380px]">
@@ -14,7 +14,9 @@ function IndexPopup() {
         Post to Bluesky
       </h1>
       
-      {props.authState === AuthState.AUTHENTICATED ? <Post /> : <Login />}
+      {auth.authState === AuthState.AUTHENTICATED ? <Post /> : <Login />}
     </div>
   );
 }
+
+export default IndexPopup;
